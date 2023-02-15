@@ -1,38 +1,21 @@
-import { Avatar, Box, Typography, IconButton } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import MenuIcon from "@mui/icons-material/Menu";
-import NewConversation from "./NewConversationModel";
+import { Box, IconButton, Typography } from "@mui/material";
+import { useState } from "react";
+import { Sidebar } from "react-pro-sidebar";
+import ConversationList from "./ConversationList";
+import NewConversationModel from "./NewConversationModel";
+import SearchIcon from "@mui/icons-material/Search";
+import UserProfile from "./UserProfile";
+import { grey } from "@mui/material/colors";
 
 interface Props {}
 
-const UserProfile: React.FC = () => {
-  const { data } = useSession();
-
-  return (
-    <Box
-      m={1}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-    >
-      <Avatar
-        src={data?.user?.image as string}
-        sx={{
-          my: 1,
-          width: "70px",
-          height: "70px",
-        }}
-      />
-      <Typography variant="body1">{data?.user?.name}</Typography>
-    </Box>
-  );
-};
-
 const SideBar: React.FC<Props> = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [isOpenModel, setIsOpenModel] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState<boolean>(false);
+
+  const closeModel = () => setIsOpenModel(false);
+  const openModel = () => setIsOpenModel(true);
 
   return (
     <Sidebar defaultCollapsed={collapsed}>
@@ -52,8 +35,34 @@ const SideBar: React.FC<Props> = () => {
       {/* user profile */}
       <UserProfile />
 
-      {/* New Conversation */}
-      <NewConversation />
+      {/* New Conversation input */}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        bgcolor={grey[500]}
+        border="1px solid"
+        borderColor={grey[700]}
+        px={1}
+        m={1}
+        py={0.25}
+        borderRadius="7px"
+        sx={{
+          cursor: "pointer",
+        }}
+        onClick={openModel}
+      >
+        <Typography variant="body2">Find your Friends</Typography>
+        <SearchIcon />
+      </Box>
+
+      {/* New Conversation Model*/}
+      {isOpenModel && (
+        <NewConversationModel isOpen={isOpenModel} closeModel={closeModel} />
+      )}
+
+      {/* Conversation List */}
+      <ConversationList />
     </Sidebar>
   );
 };

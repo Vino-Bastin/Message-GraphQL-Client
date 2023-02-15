@@ -5,27 +5,14 @@ import { grey } from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { SearchUsersOutput } from "@/types";
 
-interface Props {}
+interface Props {
+  data: SearchUsersOutput[];
+  handleAdd: (id: SearchUsersOutput) => void;
+}
 
-const SearchedUserList: React.FC<Props> = () => {
-  const data = [
-    {
-      id: 1,
-      name: "vinobastin",
-      image: "",
-    },
-    {
-      id: 2,
-      name: "vino",
-      image: "",
-    },
-    {
-      id: 3,
-      name: "vino",
-      image: "",
-    },
-  ];
+const SearchedUserList: React.FC<Props> = ({ data, handleAdd }) => {
   return (
     <Stack mt={1} spacing={1.5}>
       {data.map((user) => (
@@ -41,7 +28,11 @@ const SearchedUserList: React.FC<Props> = () => {
               {user.name}
             </Typography>
           </Box>
-          <Button color="secondary" variant="contained">
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => handleAdd(user)}
+          >
             Add
           </Button>
         </Box>

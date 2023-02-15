@@ -1,6 +1,7 @@
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { ApolloProvider } from "@apollo/client";
+import { Toaster } from "react-hot-toast";
 
 import client from "./../apollo";
 import ThemeProvider from "../mui/Theme";
@@ -11,11 +12,13 @@ export default function App({
 }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider>
-        <SessionProvider session={session}>
+      <SessionProvider session={session}>
+        <ThemeProvider>
+          <Toaster />
           <Component {...pageProps} />
-        </SessionProvider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </SessionProvider>
     </ApolloProvider>
   );
 }
+
