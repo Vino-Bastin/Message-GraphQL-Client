@@ -2,11 +2,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import { Sidebar } from "react-pro-sidebar";
-import ConversationList from "./ConversationList";
-import NewConversationModel from "./NewConversationModel";
-import SearchIcon from "@mui/icons-material/Search";
-import UserProfile from "./UserProfile";
 import { grey } from "@mui/material/colors";
+
+import SearchIcon from "@mui/icons-material/Search";
+
+import ConversationList from "./ConversationList";
+import UserProfile from "./UserProfile";
+import NewConversationModel from "./NewConversationModel";
 
 interface Props {}
 
