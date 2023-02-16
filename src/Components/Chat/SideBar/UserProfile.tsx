@@ -21,7 +21,9 @@ const UserProfile: React.FC = () => {
           height: "70px",
         }}
       />
-      <Typography variant="body1">{data?.user?.name}</Typography>
+      <Typography variant="body1" color="grey.200">
+        {data?.user?.name}
+      </Typography>
     </Box>
   );
 };

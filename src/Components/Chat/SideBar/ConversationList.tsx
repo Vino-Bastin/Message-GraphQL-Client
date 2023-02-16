@@ -51,7 +51,7 @@ const ConversationList = () => {
       {ConversationData.conversations.map(
         (conversation) =>
           conversation && (
-            <Conversation key={conversation.id} data={conversation} />
+            <Conversation key={conversation.id} conversation={conversation} />
           )
       )}
     </Stack>

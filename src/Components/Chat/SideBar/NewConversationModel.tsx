@@ -83,7 +83,11 @@ const NewConversation: React.FC<Props> = ({ closeModel, isOpen }) => {
       });
       closeModel();
       toast.success("New Conversation was created successfully");
-      route.push({ query: response.data.createConversation.conversationId });
+      route.push({
+        query: {
+          conversationId: response.data.createConversation.conversationId,
+        },
+      });
     } catch (error: any) {
       toast.error(error.message);
     }
