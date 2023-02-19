@@ -2,9 +2,22 @@
 import {
   ConversationPopulated,
   ConversationParticipantPopulated,
+  MessagePopulated,
 } from "../../../server/src/types";
 
 // * users
+export interface User {
+  id: string;
+  name: string;
+  image: string;
+  email: string;
+}
+
+export interface Session {
+  user: User;
+  expires: string;
+}
+
 export interface SearchUsersInput {
   name: string;
 }
@@ -47,3 +60,33 @@ export interface NewConversationSubscriptionData {
     };
   };
 }
+
+export interface ConversationUpdateData {
+  conversationUpdated: {
+    conversation: Omit<ConversationPopulated, "latestMessage"> & {
+      latestMessage: MessagePopulated;
+    };
+    participantsToAdd: Array<string> | null;
+    participantsToRemove: Array<string> | null;
+  };
+}
+
+// * message types
+export interface MessageData {
+  messages: Array<MessagePopulated>;
+}
+
+export interface CreateMessageInput {
+  conversationId: string;
+  content: string;
+}
+
+export interface MessageSubscriptionData {
+  subscriptionData: {
+    data: {
+      messageCreated: MessagePopulated;
+    };
+  };
+}
+
+export interface Message extends MessagePopulated {}

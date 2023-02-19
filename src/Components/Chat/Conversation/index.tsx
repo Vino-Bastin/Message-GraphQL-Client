@@ -1,26 +1,20 @@
+import React from "react";
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { grey } from "@mui/material/colors";
 import { signOut } from "next-auth/react";
 
-import SearchIcon from "@mui/icons-material/Search";
-
 import ConversationList from "./ConversationList";
 import UserProfile from "./UserProfile";
-import NewConversationModel from "./NewConversationModel";
+import NewConversation from "./NewConversation";
 
 interface Props {}
 
 const SideBar: React.FC<Props> = () => {
   const router = useRouter();
   const theme = useTheme();
-  const [isOpenModel, setIsOpenModel] = useState<boolean>(false);
 
   const { conversationId } = router.query;
-
-  const closeModel = () => setIsOpenModel(false);
-  const openModel = () => setIsOpenModel(true);
 
   return (
     <Box
@@ -30,15 +24,11 @@ const SideBar: React.FC<Props> = () => {
         justifyContent: "space-between",
         height: "100%",
         bgcolor: grey[600],
+        width: "300px",
+        minWidth: "300px",
         [theme.breakpoints.down("sm")]: {
           display: conversationId ? "none" : "flex",
           width: "100%",
-        },
-        [theme.breakpoints.up("md")]: {
-          width: "40%",
-        },
-        [theme.breakpoints.up("lg")]: {
-          width: "30%",
         },
       }}
     >
@@ -59,30 +49,7 @@ const SideBar: React.FC<Props> = () => {
         <UserProfile />
 
         {/* New Conversation input */}
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          bgcolor={grey[500]}
-          border="1px solid"
-          borderColor={grey[700]}
-          px={1}
-          m={1}
-          py={0.25}
-          borderRadius="7px"
-          sx={{
-            cursor: "pointer",
-          }}
-          onClick={openModel}
-        >
-          <Typography variant="body2">Find your Friends</Typography>
-          <SearchIcon />
-        </Box>
-
-        {/* New Conversation Model*/}
-        {isOpenModel && (
-          <NewConversationModel isOpen={isOpenModel} closeModel={closeModel} />
-        )}
+        <NewConversation />
 
         {/* Conversation List */}
         <ConversationList />

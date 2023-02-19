@@ -2,25 +2,51 @@ import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTheme } from "@mui/material/styles";
+import { useQuery } from "@apollo/client";
+import { useSession } from "next-auth/react";
+
+import ConversationOperations from "@/graphql/conversations";
+import { formatParticipantNames } from "../../../util/functions";
+import { ConversationData, Session } from "@/types";
 
 interface Props {}
 
 const FeedHeader: React.FC<Props> = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { data: userData } = useSession();
+
+  const { data, loading, error } = useQuery<ConversationData>(
+    ConversationOperations.quires.conversations
+  );
 
   const { conversationId } = router.query;
 
-  const back = () => router.push("/");
+  const back = () => router.replace("/");
 
-  if (!conversationId) return <></>;
+  const conversation = data?.conversations.find(
+    (conversation) => conversation.id === conversationId
+  );
+
+  const {
+    user: { id },
+  } = userData as Session;
+
+  if (!userData) return <></>;
+
+  if (!conversationId) back();
+
+  if (loading) return <></>;
+
+  if (error || !conversation) back();
 
   return (
     <Box
       sx={{
         display: "flex",
         width: "100%",
-        bgcolor: "grey.800",
+        borderBottom: "2px solid",
+        borderColor: "grey.800",
         p: 1,
       }}
     >
@@ -36,10 +62,13 @@ const FeedHeader: React.FC<Props> = () => {
           Back
         </Button>
       </Box>
-      <Box display="flex" ml={1} color="grey.200">
-        <Typography variant="h6">To :</Typography>
-        <Typography ml={1} variant="h6">
-          {conversationId}
+      <Box display="flex">
+        <Typography variant="h6" color="gray.800">
+          To :
+        </Typography>
+        <Typography ml={1} variant="h6" color="whitesmoke">
+          {conversation &&
+            formatParticipantNames(conversation.participants, id)}
         </Typography>
       </Box>
     </Box>

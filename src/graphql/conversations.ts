@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { MessageFields } from "./message";
 
 const ConversationFields = `
   id
@@ -8,7 +9,10 @@ const ConversationFields = `
         name
         image
       }
-      hasSeenLastMessage
+      hasSeenLatestMessage
+    }
+    latestMessage {
+      ${MessageFields}
     }
     updatedAt
 `;
@@ -31,6 +35,27 @@ const conversationOperations = {
         }
       }
     `,
+    markConversationAsRead: gql`
+      mutation MarkConversationAsRead($conversationId: String!) {
+        markConversationAsRead(conversationId: $conversationId)
+      }
+    `,
+    updateConversation: gql`
+      mutation UpdateConversation(
+        $conversationId: String!
+        $participantsIds: [String]!
+      ) {
+        updateConversation(
+          conversationId: $conversationId
+          participantsIds: $participantsIds
+        )
+      }
+    `,
+    deleteConversation: gql`
+      mutation DeleteConversation($conversationId: String!) {
+        deleteConversation(conversationId: $conversationId)
+      }
+    `,
   },
   Subscriptions: {
     conversationCreated: gql`
@@ -38,6 +63,25 @@ const conversationOperations = {
          conversationCreated {
           ${ConversationFields}
          } 
+      }
+    `,
+    conversationUpdated: gql`
+      subscription ConversationUpdated {
+        conversationUpdated {
+          conversation {
+            ${ConversationFields}
+          }
+          participantsToAdd
+          participantsToRemove
+        }
+      }
+    `,
+
+    conversationDeleted: gql`
+      subscription ConversationDeleted {
+        conversationDeleted {
+          conversationId
+        }
       }
     `,
   },
