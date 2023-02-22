@@ -67,7 +67,15 @@ const MessageList = () => {
   if (error) return <Box>{error.message}</Box>;
 
   return (
-    <Box overflow="auto">
+    <Box
+      sx={{
+        overflowY: "auto",
+        height: "100%",
+        display: "flex",
+        justifyContent: "flex-end",
+        flexDirection: "column",
+      }}
+    >
       {data?.messages.map((message) => (
         <Message
           key={message.id}

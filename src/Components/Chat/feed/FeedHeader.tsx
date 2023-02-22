@@ -55,6 +55,7 @@ const FeedHeader: React.FC<Props> = () => {
           display: "none",
           [theme.breakpoints.down("sm")]: {
             display: "flex",
+            marginRight: "5px",
           },
         }}
       >
@@ -62,7 +63,7 @@ const FeedHeader: React.FC<Props> = () => {
           Back
         </Button>
       </Box>
-      <Box display="flex">
+      <Box display="flex" alignItems="center">
         <Typography variant="h6" color="gray.800">
           To :
         </Typography>

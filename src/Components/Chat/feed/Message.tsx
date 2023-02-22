@@ -74,7 +74,7 @@ const Message: React.FC<Props> = ({ message, sendByMe }) => {
             variant="body2"
             bgcolor={sendByMe ? "" : "blue"}
             sx={{
-              padding: "0.5rem",
+              padding: "0.2rem 0.3rem",
               borderRadius: "0.5rem",
               color: sendByMe ? "" : "white",
               backgroundColor: sendByMe ? "" : blue[800],

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { grey } from "@mui/material/colors";
 import { signOut } from "next-auth/react";
 
+import ConversationModelProvider from "@/context/ConversationModel";
 import ConversationList from "./ConversationList";
 import UserProfile from "./UserProfile";
 import NewConversation from "./NewConversation";
@@ -48,11 +49,13 @@ const SideBar: React.FC<Props> = () => {
         {/* user profile */}
         <UserProfile />
 
-        {/* New Conversation input */}
-        <NewConversation />
-
-        {/* Conversation List */}
-        <ConversationList />
+        {/* Conversation Model Provider */}
+        <ConversationModelProvider>
+          {/* New Conversation input */}
+          <NewConversation />
+          {/* Conversation List */}
+          <ConversationList />
+        </ConversationModelProvider>
       </Box>
 
       {/* Log Out */}

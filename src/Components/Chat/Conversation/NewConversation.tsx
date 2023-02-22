@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Typography } from "@mui/material";
 
 import NewConversationModel from "./NewConversationModel";
+import { ConversationModelContext } from "@/context/ConversationModel";
 
 import SearchIcon from "@mui/icons-material/Search";
 
 const NewConversation = () => {
-  const [isOpenModel, setIsOpenModel] = useState<boolean>(false);
-
-  const closeModel = () => setIsOpenModel(false);
-  const openModel = () => setIsOpenModel(true);
+  const { isOpen, openModel } = useContext(ConversationModelContext);
 
   return (
     <>
@@ -33,9 +31,7 @@ const NewConversation = () => {
       </Box>
 
       {/* New Conversation Model*/}
-      {isOpenModel && (
-        <NewConversationModel isOpen={isOpenModel} closeModel={closeModel} />
-      )}
+      {isOpen && <NewConversationModel />}
     </>
   );
 };

@@ -1,20 +1,19 @@
-/**
- * @file Auth Component
- * @description Auth Component - Login with Google
- * @author vinobastin
- */
-
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import GoogleIcon from "@mui/icons-material/Google";
 import { grey } from "@mui/material/colors";
 import { signIn } from "next-auth/react";
 import { useTheme } from "@mui/material";
 
+import GoogleIcon from "@mui/icons-material/Google";
+
 const Auth: React.FC = () => {
   const theme = useTheme();
+
+  useEffect(() => {
+    document.title = "Message | Login";
+  }, []);
 
   return (
     // This is the main container

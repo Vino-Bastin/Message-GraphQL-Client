@@ -19,3 +19,11 @@ export const getConversationProfileImage = (
   return participants.filter((participant) => participant.user.id !== userId)[0]
     .user.image as string;
 };
+
+export const isUserSeenTheLatestMessage = (
+  participants: Array<ConversationParticipant>,
+  userId: string
+): boolean => {
+  return participants.filter((participant) => participant.user.id === userId)[0]
+    ?.hasSeenLatestMessage;
+};

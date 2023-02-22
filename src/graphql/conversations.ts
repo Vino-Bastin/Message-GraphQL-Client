@@ -32,6 +32,7 @@ const conversationOperations = {
       mutation CreateConversation($participantsIds: [String]!) {
         createConversation(participantsIds: $participantsIds) {
           conversationId
+          isCreated
         }
       }
     `,
@@ -77,11 +78,30 @@ const conversationOperations = {
       }
     `,
 
-    conversationDeleted: gql`
-      subscription ConversationDeleted {
-        conversationDeleted {
-          conversationId
+    conversationOnDeleted: gql`
+      subscription ConversationOnDeleted {
+        conversationOnDeleted {
+          id
         }
+      }
+    `,
+  },
+  fragment: {
+    conversationParticipants: gql`
+      fragment Participants on Conversation {
+        participants {
+          user {
+            id
+            name
+            image
+          }
+          hasSeenLatestMessage
+        }
+      }
+    `,
+    updateConversationParticipants: gql`
+      fragment UpdatedParticipants on Conversation {
+        participants
       }
     `,
   },

@@ -33,7 +33,6 @@ export interface SearchUsersOutputs {
 }
 
 // * conversation types
-
 export interface Conversation extends ConversationPopulated {}
 
 export interface ConversationParticipant
@@ -50,6 +49,7 @@ export interface CreateConversationInput {
 export interface CreateConversationData {
   createConversation: {
     conversationId: string;
+    isCreated: boolean;
   };
 }
 
@@ -68,6 +68,12 @@ export interface ConversationUpdateData {
     };
     participantsToAdd: Array<string> | null;
     participantsToRemove: Array<string> | null;
+  };
+}
+
+export interface ConversationDeletedSubscriptionPayload {
+  conversationOnDeleted: {
+    id: string;
   };
 }
 
