@@ -40,9 +40,7 @@ const NewConversation: React.FC<Props> = () => {
 
   const [selectedUsers, setSelectedUsers] = useState<Array<SearchUsersOutput>>(
     conversation
-      ? conversation.participants
-          .filter((p) => p.user.id !== session.user.id)
-          .map((p) => p.user as SearchUsersOutput)
+      ? conversation.participants.map((p) => p.user as SearchUsersOutput)
       : []
   );
 

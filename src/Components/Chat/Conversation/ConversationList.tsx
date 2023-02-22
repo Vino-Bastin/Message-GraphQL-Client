@@ -17,6 +17,7 @@ import {
   ConversationParticipant,
   Session,
   ConversationDeletedSubscriptionPayload,
+  Conversation as ConversationType,
 } from "@/types";
 import Conversation from "./Conversation";
 import NewConversation from "./NewConversationModel";
@@ -63,15 +64,46 @@ const ConversationList: React.FC = () => {
     ConversationOperations.Subscriptions.conversationUpdated,
     {
       onData: ({ client, data }) => {
-        if (!data.data) return;
+        const { data: subscriptionData } = data;
 
-        console.log("update subscriptions", data.data);
+        if (!subscriptionData) return;
 
         const {
           conversation: updatedConversation,
           participantsToAdd,
           participantsToRemove,
-        } = data.data.conversationUpdated;
+        } = subscriptionData.conversationUpdated;
+
+        const { id: updatedConversationId, latestMessage } =
+          updatedConversation;
+
+        // * user was removed from the conversation
+        if (participantsToRemove && participantsToRemove.length) {
+          const isRemoved = participantsToRemove.find(
+            (id) => id === session.user.id
+          );
+
+          if (isRemoved) {
+            const existing = client.readQuery<ConversationData>({
+              query: ConversationOperations.quires.conversations,
+            });
+
+            if (!existing) return;
+
+            client.writeQuery<ConversationData>({
+              query: ConversationOperations.quires.conversations,
+              data: {
+                conversations: existing.conversations.filter(
+                  (conversation) => conversation.id !== updatedConversationId
+                ),
+              },
+            });
+
+            if (updatedConversationId === router.query.conversationId)
+              router.replace("/");
+          }
+          return;
+        }
 
         // * user was added to the conversation
         if (participantsToAdd && participantsToAdd.length) {
@@ -97,47 +129,19 @@ const ConversationList: React.FC = () => {
           return;
         }
 
-        // * user was removed from the conversation
-        if (participantsToRemove && participantsToRemove.length) {
-          const isRemoved = participantsToRemove.find(
-            (id) => id === session.user.id
-          );
-
-          if (isRemoved) {
-            const existing = client.readQuery<ConversationData>({
-              query: ConversationOperations.quires.conversations,
-            });
-
-            if (!existing) return;
-
-            client.writeQuery<ConversationData>({
-              query: ConversationOperations.quires.conversations,
-              data: {
-                conversations: existing.conversations.filter(
-                  (conversation) => conversation.id !== updatedConversation.id
-                ),
-              },
-            });
-
-            if (updatedConversation.id === router.query.conversationId)
-              router.replace("/");
-          }
-          return;
-        }
-
         // * conversation was updated with new message
         // * user viewing the conversation so no need to update the message cache
-        if (!updatedConversation.latestMessage) return;
-        if (updatedConversation.id === router.query.conversationId) {
-          handleMarkAsRead(updatedConversation.id, false);
+        if (updatedConversationId === router.query.conversationId) {
+          handleMarkAsRead(updatedConversationId, false);
           return;
         }
+
         // * update the message cache with latest message
         // * no need to update the conversation cache since the message cache will be updated
 
         const existing = client.readQuery<MessageData>({
           query: MessageOperations.queries.messages,
-          variables: { conversationId: updatedConversation.id },
+          variables: { conversationId: updatedConversationId },
         });
 
         // * no messages in the cache
@@ -145,7 +149,7 @@ const ConversationList: React.FC = () => {
 
         // * check if the message is already in the cache
         const messageExists = existing.messages.find(
-          (message) => message.id === updatedConversation.latestMessageId
+          (message) => message.id === latestMessage.id
         );
 
         if (!messageExists) {
@@ -154,10 +158,7 @@ const ConversationList: React.FC = () => {
             variables: { conversationId: updatedConversation.id },
             data: {
               ...existing,
-              messages: [
-                updatedConversation.latestMessage,
-                ...existing.messages,
-              ],
+              messages: [latestMessage, ...existing.messages],
             },
           });
         }
