@@ -6,6 +6,8 @@ import { Toaster } from "react-hot-toast";
 import client from "./../apollo";
 import ThemeProvider from "../mui/Theme";
 
+import "../styles/index.css";
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -21,4 +23,3 @@ export default function App({
     </ApolloProvider>
   );
 }
-

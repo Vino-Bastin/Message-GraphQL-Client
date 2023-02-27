@@ -68,9 +68,6 @@ const MessageList = () => {
       sx={{
         overflowY: "auto",
         height: "100%",
-        display: "flex",
-        justifyContent: "flex-end",
-        flexDirection: "column",
       }}
     >
       {loading && <SkeletonLoading count={4} />}
