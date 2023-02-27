@@ -1,12 +1,12 @@
-import React from "react";
+"use client";
+
 import Box from "@mui/material/Box";
+import React from "react";
 
-import Feed from "./feed";
 import SideBar from "./Conversation";
+import Feed from "./feed";
 
-interface Props {}
-
-const Chat: React.FC<Props> = () => {
+const Chat: React.FC = () => {
   return (
     <Box height="100vh" display="flex">
       <SideBar />

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { grey } from "@mui/material/colors";
 import { signOut } from "next-auth/react";
 
-import ConversationModelProvider from "@/context/ConversationModel";
+import ConversationModelProvider from "@/context/ConversationModelContext";
 import ConversationList from "./ConversationList";
 import UserProfile from "./UserProfile";
 import NewConversation from "./NewConversation";

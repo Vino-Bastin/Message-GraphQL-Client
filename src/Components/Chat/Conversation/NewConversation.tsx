@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Box, Typography } from "@mui/material";
 
 import NewConversationModel from "./NewConversationModel";
-import { ConversationModelContext } from "@/context/ConversationModel";
+import { ConversationModelContext } from "@/context/ConversationModelContext";
 
 import SearchIcon from "@mui/icons-material/Search";
 

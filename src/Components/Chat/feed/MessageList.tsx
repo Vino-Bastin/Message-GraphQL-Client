@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import messageOperations from "@/graphql/message";
 import { MessageData, MessageSubscriptionData, User } from "@/types";
 import Message from "./Message";
+import SkeletonLoading from "@/Components/SkeletonLoading";
 
 const MessageList = () => {
   const router = useRouter();
@@ -60,11 +61,7 @@ const MessageList = () => {
     }
   }, [data]);
 
-  if (!conversationId) return null;
-
-  if (loading) return <Box>Loading...</Box>;
-
-  if (error) return <Box>{error.message}</Box>;
+  if (!conversationId || error) return <></>;
 
   return (
     <Box
@@ -76,6 +73,7 @@ const MessageList = () => {
         flexDirection: "column",
       }}
     >
+      {loading && <SkeletonLoading count={4} />}
       {data?.messages.map((message) => (
         <Message
           key={message.id}

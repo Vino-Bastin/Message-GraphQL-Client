@@ -17,11 +17,11 @@ import {
   ConversationParticipant,
   Session,
   ConversationDeletedSubscriptionPayload,
-  Conversation as ConversationType,
 } from "@/types";
 import Conversation from "./Conversation";
 import NewConversation from "./NewConversationModel";
 import conversationOperations from "../../../graphql/conversations";
+import SkeletonLoading from "@/Components/SkeletonLoading";
 
 const ConversationList: React.FC = () => {
   const router = useRouter();
@@ -36,7 +36,6 @@ const ConversationList: React.FC = () => {
   const {
     data: ConversationData,
     loading: ConversationLoading,
-    error: ConversationError,
     subscribeToMore,
   } = useQuery<ConversationData, {}>(
     ConversationOperations.quires.conversations,
@@ -292,6 +291,10 @@ const ConversationList: React.FC = () => {
       <Typography color="grey.200" variant="h6" fontSize={14}>
         Conversations
       </Typography>
+      {
+        // * show loading indicator
+        ConversationLoading && <SkeletonLoading count={2} isAvatar />
+      }
       {ConversationData.conversations.length === 0 && (
         <Box
           sx={{

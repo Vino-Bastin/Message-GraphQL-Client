@@ -1,13 +1,13 @@
-import React from "react";
-import { Box, Button, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { useTheme } from "@mui/material/styles";
 import { useQuery } from "@apollo/client";
+import { Box, Button, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React from "react";
 
 import ConversationOperations from "@/graphql/conversations";
-import { formatParticipantNames } from "../../../util/functions";
 import { ConversationData, Session } from "@/types";
+import { formatParticipantNames } from "../../../util/functions";
 
 interface Props {}
 
@@ -32,13 +32,11 @@ const FeedHeader: React.FC<Props> = () => {
     user: { id },
   } = userData as Session;
 
-  if (!userData) return <></>;
+  if (!conversationId || error) back();
 
-  if (!conversationId) back();
+  if (!loading && !conversation) back();
 
   if (loading) return <></>;
-
-  if (error || !conversation) back();
 
   return (
     <Box

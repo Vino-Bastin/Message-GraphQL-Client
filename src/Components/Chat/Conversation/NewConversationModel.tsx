@@ -23,7 +23,7 @@ import {
 import UserOperations from "./../../../graphql/user";
 import SearchedUserList from "./SearchedUserList";
 import SelectedUsers from "./SelectedUsers";
-import { ConversationModelContext } from "@/context/ConversationModel";
+import { ConversationModelContext } from "@/context/ConversationModelContext";
 import { Session } from "../../../types";
 
 interface Props {}

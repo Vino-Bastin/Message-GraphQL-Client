@@ -25,7 +25,7 @@ import {
   getConversationProfileImage,
   isUserSeenTheLatestMessage,
 } from "@/util/functions";
-import { ConversationModelContext } from "../../../context/ConversationModel";
+import { ConversationModelContext } from "../../../context/ConversationModelContext";
 import { formatRelativeLocale } from "../../../util/constant";
 
 interface Props {
